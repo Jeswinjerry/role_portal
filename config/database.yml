@@ -83,6 +83,7 @@ test:
 #
 production:
   <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
   database: role_portal_production
   username: role_portal
   password: <%= ENV["ROLE_PORTAL_DATABASE_PASSWORD"] %>
