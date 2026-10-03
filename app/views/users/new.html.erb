@@ -1,0 +1,42 @@
+ 
+<h1>Create User</h1>
+
+<%= form_with model: @user do |form| %>
+  <% if @user.errors.any? %>
+    <div>
+      <% @user.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :email %>
+    <%= form.email_field :email, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :password %>
+    <%= form.password_field :password, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :user_type, "User Type" %>
+    <%= form.select :user_type,
+        options_for_select(
+          User::USER_TYPES - ["admin"],
+          @user.user_type
+        ),
+        { include_blank: "Select user type" },
+        { required: true } %>
+  </div>
+
+  <%= form.submit "Create User" %>
+<% end %>
+
+<%= link_to "Back to users", users_path %>

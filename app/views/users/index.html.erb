@@ -1,0 +1,30 @@
+
+<h1>User Management</h1>
+
+<p>
+  <%= link_to "Create User", new_user_path %>
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>User Type</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.user_type.capitalize %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= button_to "Log out",
+    destroy_user_session_path,
+    method: :delete %>
