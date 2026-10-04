@@ -1,31 +1,65 @@
+<header class="portal-header">
+  <div class="portal-brand">
+    <div class="portal-logo" aria-hidden="true">RP</div>
+    <div class="portal-brand-text">
+      <h1>RolePortal</h1>
+      <p>Manage users and roles</p>
+    </div>
+  </div>
 
-<h1>User Management</h1>
+  <div class="portal-header-actions">
+    <%= button_to "Log out",
+        destroy_user_session_path,
+        method: :delete,
+        class: "portal-btn portal-btn--danger-ghost",
+        form: { data: { turbo: false } } %>
+  </div>
+</header>
 
-<p>
-  <%= link_to "Create User", new_user_path %>
-</p>
+<section class="portal-card">
+  <div class="portal-card__header">
+    <div>
+      <h2 class="portal-card__title">User Management</h2>
+      <p class="portal-card__subtitle">
+        <span class="portal-user-count"><%= pluralize(@users.size, "user") %> registered</span>
+      </p>
+    </div>
+    <%= link_to "Create user", new_user_path, class: "portal-btn portal-btn--primary" %>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>User Type</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.user_type.capitalize %></td>
-      </tr>
+  <div class="portal-card__body">
+    <% if @users.any? %>
+      <div class="portal-table-wrap">
+        <table class="portal-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><strong><%= user.name %></strong></td>
+                <td><%= user.email %></td>
+                <td>
+                  <span class="portal-badge portal-badge--<%= user.user_type %>">
+                    <%= user.user_type %>
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="portal-empty">
+        <div class="portal-empty__icon" aria-hidden="true">👤</div>
+        <h3>No users yet</h3>
+        <p>Create the first account to get started.</p>
+        <%= link_to "Create user", new_user_path, class: "portal-btn portal-btn--primary" %>
+      </div>
     <% end %>
-  </tbody>
-</table>
-
-<%= button_to "Log out",
-    destroy_user_session_path,
-    method: :delete %>
+  </div>
+</section>

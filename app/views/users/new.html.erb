@@ -1,42 +1,64 @@
- 
-<h1>Create User</h1>
-
-<%= form_with model: @user do |form| %>
-  <% if @user.errors.any? %>
-    <div>
-      <% @user.errors.full_messages.each do |message| %>
-        <p><%= message %></p>
-      <% end %>
+<header class="portal-header">
+  <div class="portal-brand">
+    <div class="portal-logo" aria-hidden="true">RP</div>
+    <div class="portal-brand-text">
+      <h1>RolePortal</h1>
+      <p>Add a new team member</p>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name, required: true %>
   </div>
 
-  <div>
-    <%= form.label :email %>
-    <%= form.email_field :email, required: true %>
+  <%= link_to "← Back to users", users_path, class: "portal-back-link" %>
+</header>
+
+<div class="portal-page-header">
+  <h2>Create user</h2>
+  <p>Fill in the details below. Admin accounts cannot be created from this form.</p>
+</div>
+
+<section class="portal-card">
+  <div class="portal-card__body portal-card__body--padded">
+    <%= form_with model: @user, html: { class: "portal-form" } do |form| %>
+      <% if @user.errors.any? %>
+        <div class="portal-form-errors" role="alert">
+          <strong><%= pluralize(@user.errors.count, "error") %> prevented this user from being saved:</strong>
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="portal-field">
+        <%= form.label :name, "Full name" %>
+        <%= form.text_field :name, required: true, placeholder: "Jane Doe", autocomplete: "name" %>
+      </div>
+
+      <div class="portal-field">
+        <%= form.label :email, "Email address" %>
+        <%= form.email_field :email, required: true, placeholder: "jane@example.com", autocomplete: "email" %>
+      </div>
+
+      <div class="portal-field">
+        <%= form.label :password %>
+        <%= form.password_field :password, required: true, placeholder: "Minimum 6 characters", autocomplete: "new-password" %>
+      </div>
+
+      <div class="portal-field">
+        <%= form.label :user_type, "User type" %>
+        <%= form.select :user_type,
+            options_for_select(
+              User::USER_TYPES - ["admin"],
+              @user.user_type
+            ),
+            { include_blank: "Select user type" },
+            { required: true } %>
+      </div>
+
+      <div class="portal-form-actions">
+        <%= form.submit "Create user", class: "portal-btn portal-btn--primary" %>
+        <%= link_to "Cancel", users_path, class: "portal-btn portal-btn--ghost" %>
+      </div>
+    <% end %>
   </div>
-
-  <div>
-    <%= form.label :password %>
-    <%= form.password_field :password, required: true %>
-  </div>
-
-  <div>
-    <%= form.label :user_type, "User Type" %>
-    <%= form.select :user_type,
-        options_for_select(
-          User::USER_TYPES - ["admin"],
-          @user.user_type
-        ),
-        { include_blank: "Select user type" },
-        { required: true } %>
-  </div>
-
-  <%= form.submit "Create User" %>
-<% end %>
-
-<%= link_to "Back to users", users_path %>
+</section>

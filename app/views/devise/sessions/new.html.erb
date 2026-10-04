@@ -1,0 +1,39 @@
+<div class="portal-auth">
+  <div class="portal-auth__intro">
+    <div class="portal-logo portal-logo--lg" aria-hidden="true">RP</div>
+    <h2 class="portal-auth__title">Welcome back</h2>
+    <p class="portal-auth__subtitle">Sign in to manage users and roles in RolePortal.</p>
+  </div>
+
+  <section class="portal-card portal-auth__card">
+    <div class="portal-card__body portal-card__body--padded">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "portal-form portal-form--auth" }) do |f| %>
+        <div class="portal-field">
+          <%= f.label :email, "Email address" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "you@example.com", required: true %>
+        </div>
+
+        <div class="portal-field">
+          <%= f.label :password %>
+          <%= f.password_field :password, autocomplete: "current-password", placeholder: "Your password", required: true %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="portal-field portal-field--checkbox">
+            <label class="portal-checkbox">
+              <%= f.check_box :remember_me %>
+              <span class="portal-checkbox__box" aria-hidden="true"></span>
+              <span class="portal-checkbox__label">Remember me on this device</span>
+            </label>
+          </div>
+        <% end %>
+
+        <div class="portal-form-actions portal-form-actions--auth">
+          <%= f.submit "Sign in", class: "portal-btn portal-btn--primary portal-btn--block" %>
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,26 @@
+<div class="portal-auth">
+  <div class="portal-auth__intro">
+    <div class="portal-logo portal-logo--lg" aria-hidden="true">RP</div>
+    <h2 class="portal-auth__title">Reset password</h2>
+    <p class="portal-auth__subtitle">Enter your email and we’ll send you instructions to choose a new password.</p>
+  </div>
+
+  <section class="portal-card portal-auth__card">
+    <div class="portal-card__body portal-card__body--padded">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "portal-form portal-form--auth" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="portal-field">
+          <%= f.label :email, "Email address" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "you@example.com", required: true %>
+        </div>
+
+        <div class="portal-form-actions portal-form-actions--auth">
+          <%= f.submit "Send reset instructions", class: "portal-btn portal-btn--primary portal-btn--block" %>
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+    </div>
+  </section>
+</div>
